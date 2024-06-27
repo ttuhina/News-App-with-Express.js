@@ -63,6 +63,6 @@ iv. Open a web browser and navigate to http://localhost:3000 to view the news da
 # **Important Note:**
 In case the API key in the file index.js has expired, ensure you have obtained an API key from newsapi.org and replace NEWS_API_KEY in server.js with your obtained API key.
 
-![Pictures of the news page]([path/to/image.png](https://github.com/ttuhina/News-App-with-Express.js/blob/main/pictures/Screenshot%202024-06-27%20125322.png))
-![Pictures of the news page]([path/to/image.png](https://github.com/ttuhina/News-App-with-Express.js/blob/main/pictures/Screenshot%202024-06-27%20125332.png))
+![Pictures of the news page](https://github.com/ttuhina/News-App-with-Express.js/blob/main/pictures/Screenshot%202024-06-27%20125322.png)
+![Pictures of the news page](https://github.com/ttuhina/News-App-with-Express.js/blob/main/pictures/Screenshot%202024-06-27%20125332.png)
 
