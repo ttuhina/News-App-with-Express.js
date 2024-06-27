@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>News App</title>
+    <style>
+        body {
+            font-family: 'Gothic A1', sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #08ebfb, rgb(1, 2, 52));
+            color: #ffffff;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.9);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 65px;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #08ebfb, rgb(1, 2, 52));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-family: 'times new roman';
+        }
+
+        h2 {
+            font-size: 1.5em;
+            color: #fff;
+        }
+
+        .greeting {
+            margin-bottom: 20px;
+            font-size: 1.1em;
+            color: #040147;
+            font-family: 'times new roman';
+        }
+
+        .search-bar {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .search-bar input {
+            width: 80%;
+            padding: 10px;
+            border: 2px solid #00b4db;
+            border-radius: 5px;
+            font-size: 1em;
+            outline: none;
+            color: #333;
+        }
+
+        .search-bar button {
+            padding: 10px 20px;
+            background-color: #00b4db;
+            border: none;
+            border-radius: 5px;
+            color: white;
+            font-size: 1em;
+            cursor: pointer;
+            margin-left: 10px;
+            outline: none;
+        }
+
+        .news-article {
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            padding: 15px;
+            background-color: #080112; /* Darkest blue possible */
+            transition: box-shadow 0.3s;
+        }
+
+        .news-article:hover {
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .news-article h2 {
+            margin: 0;
+            font-size: 1.5em;
+            color: #fff;
+        }
+
+        .news-article p {
+            margin: 0.5em 0;
+            color: #ccc;
+        }
+
+        .news-article a {
+            color: #00b4db;
+            text-decoration: none;
+        }
+
+        .news-article a:hover {
+            text-decoration: underline;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 0.9em;
+            color: #aaa;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Daily News</h1>
+        <div class="greeting">
+            <p>Hello, and welcome to your personalized news dashboard!</p>
+        </div>
+        <div class="search-bar">
+            <input type="text" id="search-input" placeholder="Search news articles..." />
+            <button onclick="searchNews()">Search</button>
+        </div>
+        <div id="news-container"></div>
+    </div>
+    <div class="footer">
+        &copy; 2024 Daily News. All rights reserved.
+    </div>
+
+    <script>
+        async function fetchNews() {
+            try {
+                const response = await fetch('/news/top');
+                const data = await response.json();
+                displayNews(data.articles);
+            } catch (error) {
+                console.error('Error fetching news:', error);
+            }
+        }
+
+        async function searchNews() {
+            const query = document.getElementById('search-input').value;
+            if (!query) return;
+
+            try {
+                const response = await fetch(`/news/search?query=${query}`);
+                const data = await response.json();
+                displayNews(data.articles);
+            } catch (error) {
+                console.error('Error searching for news:', error);
+            }
+        }
+
+        function displayNews(articles) {
+            const container = document.getElementById('news-container');
+            container.innerHTML = '';
+            if (articles.length === 0) {
+                container.innerHTML = '<p>No news articles found.</p>';
+                return;
+            }
+            articles.forEach(article => {
+                const articleDiv = document.createElement('div');
+                articleDiv.className = 'news-article';
+                articleDiv.innerHTML = `
+                    <h2>${article.title}</h2>
+                    <p>${article.description}</p>
+                    <a href="${article.url}" target="_blank">Read more</a>
+                `;
+                container.appendChild(articleDiv);
+            });
+        }
+
+        // Fetch top news on page load
+        fetchNews();
+    </script>
+</body>
+</html>
